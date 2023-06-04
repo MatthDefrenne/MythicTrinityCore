@@ -88,6 +88,7 @@
 #include "WeatherMgr.h"
 #include "WhoListStorage.h"
 #include "WorldSession.h"
+#include "Mythic/MythicManager.h"
 
 #include <boost/asio/ip/address.hpp>
 
@@ -2503,6 +2504,12 @@ void World::Update(uint32 diff)
         TC_METRIC_TIMER("world_update_time", TC_METRIC_TAG("type", "Update groups"));
         sGroupMgr->Update(diff);
     }
+
+    {
+        TC_METRIC_TIMER("world_update_time", TC_METRIC_TAG("type", "Update Mythic"));
+        sMythicMgr->Update(diff);
+    }
+
 
     {
         TC_METRIC_TIMER("world_update_time", TC_METRIC_TAG("type", "Update LFG"));

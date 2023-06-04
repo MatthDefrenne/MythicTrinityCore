@@ -37,6 +37,7 @@
 #include <list>
 #include <memory>
 #include <mutex>
+#include "Mythic/Mythic.h"
 
 class Battleground;
 class BattlegroundMap;
@@ -356,6 +357,9 @@ class TC_GAME_API Map : public GridRefManager<NGridType>
         void CreatureRelocation(Creature* creature, float x, float y, float z, float ang, bool respawnRelocationOnFail = true);
         void GameObjectRelocation(GameObject* go, float x, float y, float z, float orientation, bool respawnRelocationOnFail = true);
         void DynamicObjectRelocation(DynamicObject* go, float x, float y, float z, float orientation);
+
+        void EnableMythic(Mythic* mythic) { Mythic = mythic; };
+        Mythic* GetMythic() { return Mythic; };
 
         template<class T, class CONTAINER>
         void Visit(Cell const& cell, TypeContainerVisitor<T, CONTAINER>& visitor);
@@ -706,6 +710,9 @@ class TC_GAME_API Map : public GridRefManager<NGridType>
 
         std::mutex _mapLock;
         std::mutex _gridLock;
+
+        // Mythic
+        Mythic* Mythic;
 
         MapEntry const* i_mapEntry;
         uint8 i_spawnMode;

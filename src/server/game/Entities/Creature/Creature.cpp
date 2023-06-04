@@ -52,6 +52,7 @@
 #include "World.h"
 #include "WorldPacket.h"
 #include <G3D/g3dmath.h>
+#include "Mythic/MythicManager.h"
 
 CreatureMovementData::CreatureMovementData() : Ground(CreatureGroundMovementType::Run), Flight(CreatureFlightMovementType::None), Swim(true), Rooted(false), Chase(CreatureChaseMovementType::Run),
 Random(CreatureRandomMovementType::Walk), InteractionPauseTimer(sWorld->getIntConfig(CONFIG_CREATURE_STOP_FOR_PLAYER)) { }
@@ -754,6 +755,7 @@ void Creature::Update(uint32 diff)
         {
             Unit::Update(diff);
 
+
             // creature can be dead after Unit::Update call
             // CORPSE/DEAD state will processed at next tick (in other case death timer will be updated unexpectedly)
             if (!IsAlive())
@@ -863,6 +865,11 @@ void Creature::Update(uint32 diff)
         default:
             break;
     }
+
+    Mythic* mythic = GetMap()->GetMythic();
+
+    if (mythic)
+        mythic->PrepareCreature(this);
 }
 
 void Creature::Regenerate(Powers power)
